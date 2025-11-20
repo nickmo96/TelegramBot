@@ -1,12 +1,12 @@
 namespace TelegramBot.Model;
 public class Person
 {
-    public string? ChatId { get; set;}
+    public long? ChatId { get; set;}
     public string? FirstName { get; set;}
     public string? LastName { get; set;}
    // public string? UserName { get; set;}
 
-    public Person(string? ChatId, string? FirstName, string? LastName) // , string? UserName)
+    public Person(long? ChatId, string? FirstName, string? LastName) // , string? UserName)
     {
         this.ChatId = ChatId;
         this.FirstName = FirstName;

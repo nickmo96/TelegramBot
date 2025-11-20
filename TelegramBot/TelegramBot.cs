@@ -57,10 +57,16 @@ public class TelegramBot
         return messages;  
     }
 
-public async Task SendMessageAsync(string chatId, string text)
+public async Task SendMessageAsync(string text, string chatId)
 {
-    var url = $"https://api.telegram.org/bot{Token}/sendMessage?chat_id={chatId}&text={text}";
+    var url = $"https://api.telegram.org/bot{Token}/sendMessage?chat_id={chatId}&text={Uri.EscapeDataString(text)}";
     await _client.GetAsync(url);
+}
+
+public async Task SendMessageAsync2(string text, string chatID){
+var request = new HttpRequestMessage(HttpMethod.Post, $"https://api.telegram.org/bot{Token}/sendMessage?chat_id={chatID}&text={text}");
+
+
 }
     public async Task CommandListenerAsync()
 {
@@ -83,16 +89,16 @@ public async Task SendMessageAsync(string chatId, string text)
                 string? entity = message["entities"]?[0]?["type"]?.ToString();
                 string chatId = message["chat"]?["id"]?.ToString() ?? "0";
 
-                if (entity == "bot_command")
+                if (messageText.StartsWith("/"))
                 {
-                    switch (messageText)
+                    switch (messageText.ToLower())
                     {
                         case "/hej":
                             await SendMessageAsync("Hej! Hvordan går det?", chatId);
                             break;
 
                         case "/help":
-                            await SendMessageAsync(
+                            await SendMessageAsync2(
                                 "Kommandoer:\n" +
                                 "/hej - Bot siger hej\n" +
                                 "/nadia - Spammer Nadia er smuk\n" +
